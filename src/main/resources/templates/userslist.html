@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Usuarios</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="../static/css/style.css" media="screen"
+	type="text/css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container">
+      <table class="table table-bordered">
+		<thead>
+			<tr>
+				<th><big>Id</big></th>
+				<th><big>Nombre</big></th>
+				<th><big>Apellido</big></th>
+				<th><big>Fecha de nacimiento</big></th>
+				<th><big>Rol</big></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="user : ${users}">
+				<td th:text="${user.userId}"></td>
+				<td th:text="${user.name}"></td>
+				<td th:text="${user.lastname}"></td>
+				<td th:text="${#dates.format(user.bithday, 'dd-MM-yyyy')}"></td>
+				<td th:text="${user.role}"></td>
+				<th>
+					<a href="#" th:href="@{/user/userform?userId=__${user.userId}__}">
+						<button class="btn btn-warning">
+	              			<span class="glyphicon glyphicon-pencil" aria-hidden="true">Editar</span>
+	              		</button>
+              		</a>
+
+					<a href="#" th:href="@{/user/removeUser?userId=__${user.userId}__}">
+		              	<button type="button" class="btn btn-danger">
+		              		<span class="glyphicon glyphicon-remove" aria-hidden="true">Borrar</span>
+		              	</button>
+	              	</a>
+				</th>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div th:if="${message == 1}" class="alert alert-success" role="alert">Agregado satisfactoriamente</div>
+	<div th:if="${message == 2}" class="alert alert-danger" role="alert">Error guardando usuario</div>
+	
+	<div th:if="${message == 3}" class="alert alert-success" role="alert">Eliminado satisfactoriamente</div>
+	<div th:if="${message == 4}" class="alert alert-danger" role="alert">Error eliminando usuario</div>
+	
+	<div th:if="${message == 5}" class="alert alert-success" role="alert">Modificado satisfactoriamente</div>
+	
+	<a href="#" th:href="@{/user/userform?userId=0}">
+		<button class="btn btn-lg btn-primary btn-block" type="submit"><span class="glyphicon glyphicon-user" aria-hidden="true">Agregar usuario</span></button>
+	</a>
+	
+	</div>
+</body>
+</html>
