@@ -10,5 +10,10 @@ public class IndexController {
 	public String showIndex() {
 		return "redirect:/user/listusers";
 	}
+	
+	@GetMapping("/login")
+	public String showLogin() {
+		return "login";
+	}
 
 }
