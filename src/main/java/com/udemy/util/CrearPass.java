@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class CrearPass {
 
 	public static void main(String[] args) {
-		String passAEncriptar = "";
+		String passAEncriptar = "user";
 		BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 		System.out.println(pe.encode(passAEncriptar));
 	}

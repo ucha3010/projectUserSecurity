@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.udemy.constant.ViewConstant;
+
 @Controller
 public class LoginController {
 	
@@ -20,7 +22,7 @@ public class LoginController {
 		model.addAttribute("error", error);
 		model.addAttribute("logout", logout);
 		LOG.info("Salida método showLoginForm");
-		return "login";
+		return ViewConstant.LOGIN;
 	}
 	
 	@GetMapping({"/loginsuccess", "/"})
