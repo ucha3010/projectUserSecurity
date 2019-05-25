@@ -7,17 +7,20 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.udemy.service.impl.UserDetailServiceImpl;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true) //sirve para utilizar el @PreAuthorize en Controller o Service
+@EnableGlobalMethodSecurity(prePostEnabled=true) 
+//sirve para utilizar el @PreAuthorize en Controller o Service que es una anotación para usarla, por
+//ejemplo @PreAuthoriza("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')") y restringe el acceso a un 
+//método del Controller o Service
+													
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	private UserDetailServiceImpl userService;
+	private UserDetailsService userService;
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

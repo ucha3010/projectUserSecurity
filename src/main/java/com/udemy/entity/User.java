@@ -4,10 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,48 +18,42 @@ import org.hibernate.validator.constraints.Length;
 @Table(name="user_security")
 public class User {
 
-	private int userId;
+	@Id
+	@Column(name = "username", unique = true)
+	@NotNull
+	@Length(max = 45)
+	private String username;
+	
+	@NotNull
+	@Length(max = 60)
+	private String password;
+	
+	@NotNull
+	private boolean enabled;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	private Set<UserRole> userRole = new HashSet<UserRole>();
+	
+	private boolean accountNonExpired;
+	private boolean credentialsNonExpired;
+	private boolean accountNonLocked;
 	private String name;
 	private String lastname;
 	private Date bithday;
-	private String role;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-	@Length(max = 45)
-	private String username;
-
-	@NotNull
-	@Length(max = 256)
-	private String password;
-
-	private boolean enabled;
-
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-	private Set<UserRole> userRole = new HashSet<UserRole>();
-
+	
 	public User() {
-
 	}
 
-	public User(int userId, String name, String lastname, Date bithday, String role) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.lastname = lastname;
-		this.bithday = bithday;
-		this.role = role;
-	}
-
-	public User(@Length(max = 45) String username, @NotNull @Length(max = 256) String password, boolean enabled) {
+	public User(@NotNull @Length(max = 45) String username, @NotNull @Length(max = 60) String password,
+			@NotNull boolean enabled) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
 	}
 
-	public User(@Length(max = 45) String username, @NotNull @Length(max = 256) String password, boolean enabled,
-			Set<UserRole> userRole) {
+	public User(@NotNull @Length(max = 45) String username, @NotNull @Length(max = 60) String password,
+			@NotNull boolean enabled, Set<UserRole> userRole) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -68,44 +61,17 @@ public class User {
 		this.userRole = userRole;
 	}
 
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public Date getBithday() {
-		return bithday;
-	}
-
-	public void setBithday(Date bithday) {
-		this.bithday = bithday;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
+	public User(@NotNull @Length(max = 45) String username, @NotNull @Length(max = 60) String password,
+			@NotNull boolean enabled, Set<UserRole> userRole, boolean accountNonExpired, boolean credentialsNonExpired,
+			boolean accountNonLocked) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.userRole = userRole;
+		this.accountNonExpired = accountNonExpired;
+		this.credentialsNonExpired = credentialsNonExpired;
+		this.accountNonLocked = accountNonLocked;
 	}
 
 	public String getUsername() {
@@ -140,11 +106,60 @@ public class User {
 		this.userRole = userRole;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public Date getBithday() {
+		return bithday;
+	}
+
+	public void setBithday(Date bithday) {
+		this.bithday = bithday;
+	}
+
+	public boolean isAccountNonExpired() {
+		return accountNonExpired;
+	}
+
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+
+	public boolean isCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
+	}
+
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", name=" + name + ", lastname=" + lastname + ", bithday=" + bithday
-				+ ", role=" + role + ", username=" + username + ", password=" + password + ", enabled=" + enabled
-				+ ", userRole=" + userRole + "]";
+		return "User [username=" + username + ", password=" + password + ", enabled=" + enabled + ", userRole="
+				+ userRole + ", accountNonExpired=" + accountNonExpired + ", credentialsNonExpired="
+				+ credentialsNonExpired + ", accountNonLocked=" + accountNonLocked + ", name=" + name + ", lastname="
+				+ lastname + ", bithday=" + bithday + "]";
 	}
 
 }

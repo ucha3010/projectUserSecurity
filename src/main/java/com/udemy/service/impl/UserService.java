@@ -15,18 +15,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.udemy.entity.UserRole;
-import com.udemy.repository.UserJpaRepository;
+import com.udemy.repository.UserRepository;
 
-@Service
-public class UserDetailServiceImpl implements UserDetailsService {
+@Service("userService")
+public class UserService implements UserDetailsService {
 	
 	@Autowired
-	private UserJpaRepository userJpaRepository;
+	private UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
-		com.udemy.entity.User user = userJpaRepository.findByUsername(username);
+		com.udemy.entity.User user = userRepository.findByUsername(username);
 		
 		List<GrantedAuthority> authorities = buildAuthorities(user.getUserRole());
 		
@@ -36,6 +36,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	private User buildUser (com.udemy.entity.User user, List<GrantedAuthority> authorities){
 		
 		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
+//		new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 	}
 	
 	private List<GrantedAuthority> buildAuthorities (Set<UserRole> userRoleList) {
