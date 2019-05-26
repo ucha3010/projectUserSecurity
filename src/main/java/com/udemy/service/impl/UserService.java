@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -27,6 +30,10 @@ public class UserService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		com.udemy.entity.User user = userRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
 		
 		List<GrantedAuthority> authorities = buildAuthorities(user.getUserRole());
 		
@@ -35,8 +42,17 @@ public class UserService implements UserDetailsService {
 	
 	private User buildUser (com.udemy.entity.User user, List<GrantedAuthority> authorities){
 		
-		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), true, true, true, authorities);
-//		new User(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+		if(!user.isAccountNonExpired()) {
+			throw new AccountExpiredException(user.getUsername());			
+		} else if(!user.isCredentialsNonExpired()) {
+			throw new CredentialsExpiredException(user.getUsername());
+		} else if(!user.isAccountNonLocked()) {
+			throw new LockedException(user.getUsername());
+		} else if(!user.isEnabled()) {
+			
+		}
+		return new User(user.getUsername(), user.getPassword(), user.isEnabled(), user.isAccountNonExpired(), user.isCredentialsNonExpired(),
+				user.isAccountNonLocked(), authorities);
 	}
 	
 	private List<GrantedAuthority> buildAuthorities (Set<UserRole> userRoleList) {

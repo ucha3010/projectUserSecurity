@@ -17,26 +17,26 @@
 
 	<div class="jumbotron">
 		<div class="container">
-			<h1>Contact Form</h1>
+			<h1>Formulario de contacto</h1>
 			<br/>
 			<form action="#" th:action="@{/contacts/addcontact}" th:object="${contactModel}" method="post">
 				<input type="hidden" th:field="*{id}" />
-				First Name: <input type="text" class="form-control" th:field="*{firstname}" th:value="${firstname}"></input>
+				Nombre: <input type="text" class="form-control" th:field="*{firstname}" th:value="${firstname}"></input>
 				<br/>
-				Last Name: <input type="text" class="form-control" th:field="*{lastname}" th:value="${lastname}"></input>
+				Apellidos: <input type="text" class="form-control" th:field="*{lastname}" th:value="${lastname}"></input>
 				<br/>
-				Telephone: <input type="text" class="form-control" th:field="*{telephone}" th:value="${telephone}"></input>
+				Teléfono: <input type="text" class="form-control" th:field="*{telephone}" th:value="${telephone}"></input>
 				<br/>
-				City: <input type="text" class="form-control" th:field="*{city}" th:value="${city}"></input>
+				Ciudad: <input type="text" class="form-control" th:field="*{city}" th:value="${city}"></input>
 				<br/>
 				<br/>
 				<button class="btn btn-lg btn-primary btn-block" type="submit">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Accept
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Aceptar
 				</button>
 			</form>
 			<a href="#" th:href="@{/contacts/cancel}">
 				<button class="btn btn-lg btn-primary btn-block" type="submit">
-					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
 				</button>
 			</a>
 		</div>
