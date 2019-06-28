@@ -1,4 +1,4 @@
-package com.udemy.service.impl;
+package com.udemy.authentication;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService {
 		} else if(!user.isCredentialsNonExpired()) {
 			throw new CredentialsExpiredException(user.getUsername());
 		} else if(!user.isAccountNonLocked()) {
-			throw new LockedException(user.getUsername());
+			throw new LockedException("El usuario se encuentra bloqueado");
 		} else if(!user.isEnabled()) {
 			
 		}
